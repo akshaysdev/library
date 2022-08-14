@@ -4,7 +4,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: dev.Dockerfile
+      dockerfile: Dockerfile
     image: akshaysdev/library-v1.0:latest
     networks:
       - library-net
