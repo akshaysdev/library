@@ -9,6 +9,7 @@ const BookSchema = new Schema({
   isbn: {
     type: String,
     required: true,
+    index: true
   },
   authors: {
     type: [Schema.Types.ObjectId],

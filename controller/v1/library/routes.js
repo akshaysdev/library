@@ -8,14 +8,14 @@ libraryRouter.get('/book/form', library.bookForm);
 
 libraryRouter.get('/magazine/form', library.magazineForm);
 
-libraryRouter.get('/search', library.searchForm);
+libraryRouter.get('/search/form', library.searchForm);
 
 // Get books and magazines
-// libraryRouter.get('/book', library.books);
+libraryRouter.get('/books', library.fetchAllBooks);
 
-// libraryRouter.get('/magazine', library.magazines);
+libraryRouter.get('/magazines', library.fetchAllMagazines);
 
-// libraryRouter.get('/book-and-magazine', library.booksAndMagazines);
+libraryRouter.get('/books-and-magazines', library.booksAndMagazines);
 
 // Create books and magazines
 libraryRouter.post('/book', library.createBook);
@@ -23,7 +23,6 @@ libraryRouter.post('/book', library.createBook);
 libraryRouter.post('/magazine', library.createMagazine);
 
 // Search books and magazines
-// libraryRouter.post('/search', library.search);
-
+libraryRouter.post('/search', library.search);
 
 module.exports = { libraryRouter };

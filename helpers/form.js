@@ -28,7 +28,7 @@ const validateEmail = (email) => {
   const regex =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   if (!regex.test(email)) {
-    const error = new Error('Email must be valid email address');
+    const error = new Error('Invalid email address');
     error.status = 422;
     throw error;
   }

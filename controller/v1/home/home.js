@@ -3,7 +3,8 @@ const { viewsFilePath } = require('../../../constants');
 
 const homePage = (req, res) => {
   try {
-    res.render(viewsFilePath.home);
+    const message = req.flash('message');
+    res.render(viewsFilePath.home, { message });
   } catch (error) {
     res.status(error.status || 500).json(response(error));
   }

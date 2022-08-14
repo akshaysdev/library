@@ -1,32 +1,28 @@
+<% if (data?.content.length) { %>
 <table>
   <tr>
-    <th>Company</th>
-    <th>Company</th>
-    <th>Contact</th>
-    <th>Country</th>
+    <% for (let table of data.table) { %>
+    <th><%= table.header %></th>
+    <% } %>
   </tr>
+
+  <% for (let content of data.content) { %>
   <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-    <td>Germany</td>
+    <% for (let table of data.table) { %> 
+      <% if (table.key === 'authors') { %>
+    <td>
+      <% for (let author of content[table.key]) { %>
+      <p><%= author.email %> (<%= author.firstname || '' %> <%= author.lastname || '' %>) ;</p><br />
+      <% } %>
+    </td>
+    <% } else if (table.key === 'publishedAt') { %>
+    <td><%= content[table.key]?.toDateString() || '' %></td>
+    <% } else { %>
+    <td><%= content[table.key] || '' %></td>
+    <% } %> <% } %>
   </tr>
-  <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-    <td>Mexico</td>
-  </tr>
-  <tr>
-    <td>Ernst Handel</td>
-    <td>Roland Mendel</td>
-    <td>Austria</td>
-    <td>Austria</td>
-  </tr>
-  <tr>
-    <td>Magazzini Alimentari Riuniti</td>
-    <td>Giovanni Rovelli</td>
-    <td>Italy</td>
-    <td>Italy</td>
-  </tr>
+  <% } %>
 </table>
+<% } else { %>
+<div class="hoarding"><h1>No data found</h1></div>
+<% } %>

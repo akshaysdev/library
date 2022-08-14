@@ -5,6 +5,7 @@ const AuthorSchema = new Schema({
     type: String,
     required: true,
     unique: true,
+    index: true
   },
   firstname: {
     type: String,

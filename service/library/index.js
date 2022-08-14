@@ -1,67 +1,105 @@
-const fileSystem = require('fs');
-
-const { csvPath, jsonPath } = require('../../constants');
+const { bookTable, magazineTable, booksAndMagazinesTable } = require('../../helpers/table');
+const { validateISBN, validateEmail } = require('../../helpers/form');
 
 module.exports = class LibraryService {
-  constructor({ bookRepository, authorRepository }) {
+  constructor({ bookRepository, magazineRepository, authorRepository }) {
     this.bookRepository = bookRepository;
+    this.magazineRepository = magazineRepository;
     this.authorRepository = authorRepository;
   }
 
-  async getData(filePath) {
+  async validateSearchFilter(filter) {
     try {
-      const data = fileSystem.readFileSync(filePath, 'utf8');
-      return JSON.parse(data);
+      const { isbn, authors } = filter;
+
+      if (!isbn && !authors) {
+        const error = new Error('Please provide either ISBN or Authors');
+        error.status = 422;
+        throw error;
+      }
+
+      if (isbn && !validateISBN(isbn)) {
+        const error = new Error('Invalid ISBN');
+        error.status = 422;
+        throw error;
+      }
+
+      if (authors) {
+        authors.forEach(validateEmail);
+      }
     } catch (error) {
-      error.meta = { ...error.meta, 'LibraryService.getData': { filePath } };
+      error.meta = { ...error.meta, 'LibraryService.validateSearchFilter': { filter } };
       throw error;
     }
   }
 
-  async saveData(filePath, data) {
+  async fetchAllBooks() {
     try {
-      fileSystem.writeFileSync(jsonPath.books, JSON.stringify(data));
+      const books = await this.bookRepository.fetchAllBooks();
+
+      const table = bookTable();
+
+      return { message: { status: 'success' }, content: books, table };
     } catch (error) {
-      error.meta = { ...error.meta, 'LibraryService.saveData': { filePath } };
       throw error;
     }
   }
 
-  async storeBook(book) {
+  async fetchAllMagazines() {
     try {
-      await this.validateBook(book);
+      const magazines = await this.magazineRepository.fetchAllMagazines();
 
-      data.push(book);
+      const table = magazineTable();
 
-      await this.saveData(filePath, data);
+      return { message: { status: 'success' }, content: magazines, table };
     } catch (error) {
-      error.meta = { ...error.meta, 'LibraryService.storeBook': { book } };
-      throw error;
-    }
-  }
-  async storeManyBooks(file) {
-    try {
-      // const booksData = await this.fileRepository.csvToJson(file);
-
-      // data.push(book);
-
-      // await this.saveData(filePath, data);
-    } catch (error) {
-      error.meta = { ...error.meta, 'LibraryService.storeManyBooks': { file } };
       throw error;
     }
   }
 
-  async storeMagazine(magazine) {
+  async fetchAllBooksAndMagazines() {
     try {
-      const filePath = jsonPath.magazines;
-      const data = await this.getData(filePath);
+      const books = await this.bookRepository.fetchAllBooks();
+      const magazines = await this.magazineRepository.fetchAllMagazines();
 
-      data.push(magazine);
+      const booksAndMagazines = [...books, ...magazines].sort((a, b) => (a.title > b.title ? 1 : -1));
 
-      await this.saveData(filePath, data);
+      const table = booksAndMagazinesTable();
+
+      return { message: { status: 'success' }, content: booksAndMagazines, table };
     } catch (error) {
-      error.meta = { ...error.meta, 'LibraryService.storeMagazine': { magazine } };
+      throw error;
+    }
+  }
+
+  async searchByFilter(filter) {
+    try {
+      let books;
+      let magazines;
+      let booksAndMagazines;
+
+      if (filter?.authors) {
+        filter.authors = filter.authors.replaceAll(' ', '').split(',');
+      }
+
+      if (filter?.isbn) {
+        books = await this.bookRepository.searchByISBN(filter.isbn);
+        magazines = await this.magazineRepository.searchByISBN(filter.isbn);
+      }
+
+      if (filter?.authors) {
+        const authorIds = (await this.authorRepository.findAuthorsByEmails(filter.authors)).map((author) => author._id);
+
+        books = await this.bookRepository.searchByAuthorIds(authorIds);
+        magazines = await this.magazineRepository.searchByAuthorIds(authorIds);
+      }
+
+      booksAndMagazines = [...books, ...magazines].sort((a, b) => (a.title > b.title ? 1 : -1));
+      const table = booksAndMagazinesTable();
+
+      return { message: { status: 'success' }, content: booksAndMagazines, table };
+    } catch (error) {
+      error.meta = { ...error.meta, 'LibraryService.searchByFilter': { filter } };
       throw error;
     }
   }

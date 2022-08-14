@@ -1,0 +1,11 @@
+<html lang="en">
+  <%- include('../components/header.ejs') %>
+  <body>
+    <%- include('../components/navbar.ejs') %>
+
+    <%- include('../components/message.ejs', { message }) %>
+
+    <%- include('../components/table.ejs', { data }) %>
+  </body>
+  <%- include('../components/footer.ejs') %> <%- include("./script.ejs") %>
+</html>

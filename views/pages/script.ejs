@@ -9,4 +9,14 @@
       }, 600);
     };
   }
+
+  const placeHolderChange = function () {
+    const type = document.getElementById('type');
+    console.log(`🚀 ~ file: script.ejs ~ line 14 ~ type`, type);
+    if (type.value === 'ISBN') {
+      document.getElementById('filter').placeholder = 'E.g., 1111-1111-1111';
+    } else if (type.value === 'AUTHORS') {
+      document.getElementById('filter').placeholder = 'Comma separated emails, E.g., auth1@eml.com,auth2@eml.in';
+    }
+  };
 </script>

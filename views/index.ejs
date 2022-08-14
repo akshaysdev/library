@@ -2,9 +2,12 @@
 <html>
   <%- include('./components/header.ejs') %>
   <body>
-    <%- include('./components/navbar.ejs') %>
-    <%- include('./components/table.ejs') %>
+    <%- include('./components/navbar.ejs') %> <%- include("./components/message.ejs", { message }) %>
+
+    <div class="hoarding">
+      <h1>WELCOME TO LIBRARY</h1>
+    </div>
   </body>
 
-  <%- include('./components/footer.ejs') %>
+  <%- include('./components/footer.ejs') %> <%- include("./pages/script.ejs") %>
 </html>
