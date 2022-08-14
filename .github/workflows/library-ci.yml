@@ -14,5 +14,5 @@ jobs:
         run: |
           docker build -t library-v1.0 .
           docker login -u akshaysdev -p dckr_pat_0rSJxel4DVFMZ4bEVBWjbHK4fNM
-          docker tag library-v1.0:latest akshaysdev/
+          docker tag library-v1.0:latest akshaysdev
           docker push akshaysdev/library-v1.0
