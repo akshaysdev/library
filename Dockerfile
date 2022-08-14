@@ -9,3 +9,5 @@ RUN npm install --no-optional
 COPY . .
 
 EXPOSE 8000 8000
+
+CMD ["npm", "start"]
