@@ -1,0 +1,34 @@
+<html lang="en">
+  <%- include("../components/header.ejs") %>
+
+  <body>
+    <%- include("../components/navbar.ejs") %>
+
+    <div class="create content">
+      <%- include("../components/message.ejs", { message }) %>
+
+      <form action="/api/v1/library/magazine" method="post">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" />
+
+        <label for="isbn">ISBN:</label>
+        <input type="text" id="isbn" placeholder="E.g., 1111-1111-1111" name="isbn" />
+
+        <label for="authors">Authors:</label>
+        <input
+          type="text"
+          id="authors"
+          name="authors"
+          placeholder="Comma separated emails, E.g., auth1@eml.com,auth2@eml.in"
+        />
+
+        <label for="publishedAt">Published At:</label>
+        <input type="text" id="publishedAt" placeholder="E.g., 01.01.1901 (DD.MM.YYYY)" name="publishedAt" />
+
+        <input type="submit" value="Add Magazine" name="submit" />
+      </form>
+    </div>
+
+    <%- include("../components/footer.ejs") %> <%- include("./script.ejs") %>
+  </body>
+</html>

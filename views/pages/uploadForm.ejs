@@ -1,0 +1,25 @@
+<html lang="en">
+  <%- include("../components/header.ejs") %>
+
+  <body>
+    <%- include("../components/navbar.ejs") %>
+
+    <div class="create content">
+      <%- include("../components/message.ejs", { message }) %>
+
+      <form action="/api/v1/file/upload" enctype="multipart/form-data" method="post">
+        <label for="type">Type:</label>
+        <select id="type" name="type">
+          <option value="BOOKS">BOOKS</option>
+          <option value="MAGAZINES">MAGAZINES</option>
+          <option value="AUTHORS">AUTHORS</option>
+        </select>
+        
+        <input type="file" name="file">
+        <input type="submit" value="Upload" name="submit" />
+      </form>
+    </div>
+
+    <%- include("../components/footer.ejs") %> <%- include("./script.ejs") %>
+  </body>
+</html>

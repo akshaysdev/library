@@ -1,0 +1,158 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Library</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
+    body {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+      font-family: 'Noto Serif', serif;
+      max-width: 1200px;
+    }
+    p,
+    h1,
+    h2,
+    h3,
+    a,
+    ul {
+      margin: 0;
+      padding: 0;
+      text-decoration: none;
+      color: #222;
+    }
+    /* nav & footer styles */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 60px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+      text-transform: uppercase;
+    }
+    nav ul {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    nav li {
+      list-style-type: none;
+      margin-left: 20px;
+    }
+    nav h1 {
+      font-size: 3em;
+    }
+    nav p,
+    nav a {
+      color: #777;
+      font-weight: 300;
+    }
+    footer {
+      color: #777;
+      text-align: center;
+      margin: 80px auto 20px;
+    }
+    h2 {
+      margin-bottom: 40px;
+    }
+    h3 {
+      text-transform: capitalize;
+      margin-bottom: 8px;
+    }
+    .content {
+      margin-left: 20px;
+    }
+    /* index styles */
+    /* details styles */
+    /* create styles */
+    .create form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .create input,
+    select,
+    .create textarea {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+    }
+    .create label {
+      display: block;
+      margin-top: 24px;
+    }
+    textarea {
+      height: 120px;
+    }
+    input[type='submit'],
+    .create button {
+      margin-top: 20px;
+      background: crimson;
+      color: white;
+      padding: 6px;
+      border: 0;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+    input[type='file'] {
+      margin-top: 20px;
+      background: rgb(69, 106, 226);
+      color: white;
+      padding: 4px;
+      border: 0;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    .alert {
+      padding: 20px;
+      font-family: arial, sans-serif;
+      color: rgb(255, 255, 255);
+      opacity: 1;
+      transition: opacity 0.6s;
+      margin-bottom: 15px;
+    }
+
+    .alert.success {
+      background-color: #06a168;
+    }
+    .alert.error {
+      background-color: #e74638;
+    }
+    .alert.warning {
+      background-color: #ff9800;
+    }
+
+    .closebtn {
+      margin-left: 15px;
+      color: white;
+      font-weight: bold;
+      float: right;
+      font-size: 22px;
+      line-height: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .closebtn:hover {
+      color: black;
+    }
+  </style>
+</head>

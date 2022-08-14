@@ -1,0 +1,12 @@
+<script>
+  const close = document.getElementsByClassName('closebtn');
+  for (let idx = 0; idx < close.length; idx++) {
+    close[idx].onclick = function () {
+      const div = this.parentElement;
+      div.style.opacity = '0';
+      setTimeout(function () {
+        div.style.display = 'none';
+      }, 600);
+    };
+  }
+</script>

@@ -1,0 +1,17 @@
+<% console.log(message) %>
+<% if (message.length && message[0].status === "success") { %>
+<div class="alert success">
+  <span class="closebtn">&times;</span>
+  <strong>Success!</strong> <%= message[0].text %>
+</div>
+<% } else if (message.length && message[0].status === "error") { %>
+<div class="alert error">
+  <span class="closebtn">&times;</span>
+  <strong>Error!</strong> <%= message[0].text %>
+</div>
+<% } else if (message.length && message[0].status === "warn") { %>
+<div class="alert warning">
+  <span class="closebtn">&times;</span>
+  <strong>Warning!</strong> <%= message[0].text %>
+</div>
+<% } %>
