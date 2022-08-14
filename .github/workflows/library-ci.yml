@@ -12,8 +12,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Scripts
         run: |
-          docker build -t library-v1.0:latest .
+          docker build -t library-v1.0 .
           docker login -u akshaysdev -p dckr_pat_0rSJxel4DVFMZ4bEVBWjbHK4fNM
           docker tag library-v1.0:latest akshaysdev/
           docker push akshaysdev/library-v1.0
-          docker pull akshaysdev/library-v1.0:latest
