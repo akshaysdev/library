@@ -87,7 +87,7 @@ const booksAndMagazines = async (req, res) => {
 
 const search = async (req, res) => {
   try {
-    const filter = req.body.type === 'ISBN' ? { isbn: req.body.filter } : { authors: req.body.filter };
+    const filter = req.body.type === 'ISBN' ? { isbn: req.body.filter.trim() } : { authors: req.body.filter.trim() };
 
     const { message, content, table } = await libraryService.searchByFilter(filter);
 

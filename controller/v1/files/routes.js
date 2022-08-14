@@ -6,12 +6,16 @@ const file = require('./file');
 const { container } = require('../../../externalService/dependencyInjection');
 const uploadImage = container.resolve('uploadImage');
 
-// Get forms
-fileRouter.get('/upload', file.uploadForm);
-
-// fileRouter.get('/download', file.uploadForm);
+// Upload forms
+fileRouter.get('/upload/form', file.uploadForm);
 
 fileRouter.post('/upload', uploadImage.single('file'), file.uploadFile);
+
+// Download forms
+fileRouter.get('/download/form', file.downloadForm);
+
+fileRouter.post('/download', file.downloadFile);
+
 
 
 module.exports = { fileRouter };

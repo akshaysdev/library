@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+/* This is the main file of the application. It is the entry point of the application. */
 const express = require('express');
 const app = express();
 

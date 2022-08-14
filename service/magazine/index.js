@@ -3,6 +3,7 @@ const { Readable } = require('stream');
 const { parse } = require('csv-parse');
 
 const { validateISBN, validateEmail, unique, validateDate } = require('../../helpers/form');
+const { magazineCsvHeaders } = require('../../helpers/table');
 
 module.exports = class MagazineService {
   constructor({ magazineRepository, authorRepository }) {
@@ -10,6 +11,11 @@ module.exports = class MagazineService {
     this.authorRepository = authorRepository;
   }
 
+  /**
+   * It validates the magazine object and throws an error if it's invalid
+   * @param magazine - The magazine object to validate.
+   * @returns A boolean value.
+   */
   async validateMagazine(magazine) {
     try {
       if (!magazine.title) {
@@ -63,6 +69,11 @@ module.exports = class MagazineService {
     }
   }
 
+  /**
+   * It takes a CSV file, converts it to JSON, and returns the JSON
+   * @param file - The file that was uploaded.
+   * @returns An array of objects.
+   */
   async magazineCsvToJson(file) {
     try {
       const stream = Readable.from(file.buffer);
@@ -84,6 +95,10 @@ module.exports = class MagazineService {
     }
   }
 
+  /**
+   * It takes a CSV file, converts it to JSON, validates the JSON, saves the JSON to the database
+   * @param file - The file to be uploaded.
+   */
   async saveMagazinesFromFile(file) {
     try {
       const magazines = await this.magazineCsvToJson(file);
@@ -122,6 +137,12 @@ module.exports = class MagazineService {
     }
   }
 
+  /**
+   * It takes a magazine object, validates it, creates new authors if needed, creates the magazine and
+   * returns a success message
+   * @param magazine - The magazine object that we want to create.
+   * @returns A magazine object
+   */
   async createMagazine(magazine) {
     try {
       magazine.authors = magazine.authors.replaceAll(' ', '').split(',');
@@ -148,6 +169,33 @@ module.exports = class MagazineService {
       return { status: 'success', text: 'Magazine uploaded successfully!' };
     } catch (error) {
       error.meta = { ...error.meta, 'MagazineService.createMagazine': { magazine } };
+      throw error;
+    }
+  }
+
+  /**
+   * It fetches all magazines from the database, transforms them into CSV data and returns the CSV data
+   * @returns A string of csv data.
+   */
+  async jsonDataToCsvData() {
+    try {
+      const magazines = await this.magazineRepository.fetchAllMagazines();
+
+      let csvData = [];
+      const csvHeaders = magazineCsvHeaders();
+      csvData.push(csvHeaders);
+
+      for (let magazine of magazines) {
+        const authors = magazine.authors.map((author) => author.email);
+        const publishedAt = moment(new Date(magazine.publishedAt)).format('DD.MM.YYYY').toString();
+        const row = [magazine.title, magazine.isbn, authors.join(','), publishedAt];
+        csvData.push(row);
+      }
+      csvData = csvData.map((row) => row.join(';'));
+      csvData = csvData.join('\n');
+
+      return csvData;
+    } catch (error) {
       throw error;
     }
   }

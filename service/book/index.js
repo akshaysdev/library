@@ -2,6 +2,7 @@ const { Readable } = require('stream');
 const { parse } = require('csv-parse');
 
 const { validateISBN, validateEmail, unique } = require('../../helpers/form');
+const { bookCsvHeaders } = require('../../helpers/table');
 
 module.exports = class BookService {
   constructor({ bookRepository, authorRepository }) {
@@ -9,6 +10,11 @@ module.exports = class BookService {
     this.authorRepository = authorRepository;
   }
 
+  /**
+   * It validates a book object
+   * @param book - The book object to validate.
+   * @returns A boolean value
+   */
   async validateBook(book) {
     try {
       if (!book.title) {
@@ -56,6 +62,11 @@ module.exports = class BookService {
     }
   }
 
+  /**
+   * It takes a CSV file, converts it to JSON, and returns the JSON
+   * @param file - The file object that was uploaded.
+   * @returns An array of objects.
+   */
   async bookCsvToJson(file) {
     try {
       const stream = Readable.from(file.buffer);
@@ -77,6 +88,12 @@ module.exports = class BookService {
     }
   }
 
+  /**
+   * It takes a CSV file, converts it to JSON, validates the JSON, saves the authors, and then saves
+   * the books
+   * @param file - The file to be uploaded.
+   * @returns A promise that resolves to an object with a status and text property.
+   */
   async saveBooksFromFile(file) {
     try {
       const books = await this.bookCsvToJson(file);
@@ -112,6 +129,11 @@ module.exports = class BookService {
     }
   }
 
+  /**
+   * It creates a book
+   * @param book - The book object to be created.
+   * @returns A promise that resolves to an object with a status and text property.
+   */
   async createBook(book) {
     try {
       book.authors = book.authors.replaceAll(' ', '').split(',');
@@ -137,6 +159,32 @@ module.exports = class BookService {
       return { status: 'success', text: 'Book uploaded successfully!' };
     } catch (error) {
       error.meta = { ...error.meta, 'BookService.createBook': { book } };
+      throw error;
+    }
+  }
+
+  /**
+   * It fetches all books from the database, transforms them into CSV data, and returns the CSV data
+   * @returns A string of csv data.
+   */
+  async jsonDataToCsvData() {
+    try {
+      const books = await this.bookRepository.fetchAllBooks();
+
+      let csvData = [];
+      const csvHeaders = bookCsvHeaders();
+      csvData.push(csvHeaders);
+
+      for (let book of books) {
+        const authors = book.authors.map((author) => author.email);
+        const row = [book.title, book.isbn, authors.join(','), book.description];
+        csvData.push(row);
+      }
+      csvData = csvData.map((row) => row.join(';'));      
+      csvData = csvData.join('\n');
+
+      return csvData;
+    } catch (error) {
       throw error;
     }
   }

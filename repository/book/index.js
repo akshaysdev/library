@@ -6,6 +6,11 @@ module.exports = class BookRepository {
     this.repository = BookSchema(mongoDb);
   }
 
+ /**
+  * It creates a book
+  * @param book - The book object to be created.
+  * @returns The response from the repository.
+  */
   async create(book) {
     try {
       const response = await this.repository.create(book);
@@ -17,6 +22,11 @@ module.exports = class BookRepository {
     }
   }
 
+  /**
+   * Inserts many books into the database
+   * @param books - An array of books to insert.
+   * @returns The result of the insertMany operation.
+   */
   async insertMany(books) {
     try {
       return await this.repository.insertMany(books, { ordered: true });
@@ -26,6 +36,10 @@ module.exports = class BookRepository {
     }
   }
 
+  /**
+   * It fetches all books from the database and returns them in a formatted way
+   * @returns An array of books
+   */
   async fetchAllBooks() {
     try {
       const books = await this.repository.find({});
@@ -38,6 +52,11 @@ module.exports = class BookRepository {
     }
   }
 
+  /**
+   * It searches for books by author ids
+   * @param ids - An array of author ids.
+   * @returns An array of books that have the author ids passed in.
+   */
   async searchByAuthorIds(ids) {
     try {
       const books = await this.repository.find({ authors: { $in: ids } });
@@ -51,6 +70,11 @@ module.exports = class BookRepository {
     }
   }
 
+  /**
+   * It searches for books by ISBN and returns a list of books
+   * @param isbn - The isbn of the book to search for.
+   * @returns An array of books
+   */
   async searchByISBN(isbn) {
     try {
       const books = await this.repository.find({ isbn });

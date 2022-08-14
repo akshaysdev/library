@@ -8,6 +8,10 @@ module.exports = class LibraryService {
     this.authorRepository = authorRepository;
   }
 
+  /**
+   * It validates the search filter object and throws an error if the filter is invalid
+   * @param filter - The filter object that we want to validate.
+   */
   async validateSearchFilter(filter) {
     try {
       const { isbn, authors } = filter;
@@ -33,6 +37,10 @@ module.exports = class LibraryService {
     }
   }
 
+  /**
+   * It fetches all books from the database and returns them in a table
+   * @returns An object with a message and content property.
+   */
   async fetchAllBooks() {
     try {
       const books = await this.bookRepository.fetchAllBooks();
@@ -45,6 +53,10 @@ module.exports = class LibraryService {
     }
   }
 
+  /**
+   * It fetches all magazines from the database and returns them in a table
+   * @returns An object with a message and content property.
+   */
   async fetchAllMagazines() {
     try {
       const magazines = await this.magazineRepository.fetchAllMagazines();
@@ -57,6 +69,11 @@ module.exports = class LibraryService {
     }
   }
 
+  /**
+   * It fetches all books and magazines from the database, sorts them by title, and returns them in a
+   * table
+   * @returns An object with a message and content property.
+   */
   async fetchAllBooksAndMagazines() {
     try {
       const books = await this.bookRepository.fetchAllBooks();
@@ -72,6 +89,11 @@ module.exports = class LibraryService {
     }
   }
 
+  /**
+   * It searches for books and magazines by a filter
+   * @param filter - {
+   * @returns An object with a message and content.
+   */
   async searchByFilter(filter) {
     try {
       let books;

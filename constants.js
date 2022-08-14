@@ -26,10 +26,11 @@ const fileType = {
 
 const pagePath = {
   home: '/api/v1/home',
-  uploadForm: '/api/v1/file/upload',
+  uploadForm: '/api/v1/file/upload/form',
+  downloadForm: '/api/v1/file/download/form',
   bookForm: '/api/v1/library/book/form',
   magazineForm: '/api/v1/library/magazine/form',
   searchForm: '/api/v1/library/search/form',
 };
 
-module.exports = { viewsFilePath, csvPath, uploadPath, fileType, pagePath /* jsonPath, /* pagePath */ };
+module.exports = { viewsFilePath, csvPath, uploadPath, fileType, pagePath };

@@ -1,0 +1,38 @@
+<html lang="en">
+  <%- include("../components/header.ejs") %>
+
+  <body>
+    <%- include("../components/navbar.ejs") %>
+
+    <div class="create content">
+      <%- include("../components/message.ejs", { message }) %>
+
+      <form action="/api/v1/file/download" method="post">
+        <label for="type">Type:</label>
+        <select id="type" name="type">
+          <option value="BOOKS">BOOKS</option>
+          <option value="MAGAZINES">MAGAZINES</option>
+          <option value="AUTHORS">AUTHORS</option>
+        </select>
+
+        <input type="submit" value="Download" name="submit" />
+      </form>
+    </div>
+
+    <% if (message[0]?.download) { %>
+    <script>
+         (function (download) {
+         const blob = new Blob([download.data], { type: 'text/csv' });
+         const url = window.URL.createObjectURL(blob);
+         const link = document.createElement('a');
+         link.setAttribute('href', url);
+         link.setAttribute('download', download.filename);
+         document.body.appendChild(link);
+         link.click();
+         document.body.removeChild(link);
+      })(<%- JSON.stringify(message[0].download) %>);
+    </script>
+    <% } %> 
+    <%- include("../components/footer.ejs") %>
+  </body>
+</html>
