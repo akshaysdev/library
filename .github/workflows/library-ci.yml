@@ -13,6 +13,6 @@ jobs:
       - name: Scripts
         run: |
           docker build -t library-v1.0 .
-          echo ${{ secrets.DOCKER_SECRET }} | docker login -u ${{ secrets.DOCKER_USER }} -p --password-stdin
+          echo ${{ secrets.DOCKER_SECRET }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
           docker tag library-v1.0 akshaysdev/library
           docker push akshaysdev/library
