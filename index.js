@@ -20,6 +20,12 @@ app.set('view engine', 'ejs');
 
 router(app);
 
+/* This is a catch-all route. It is used to redirect the user to the home page if the user enters a
+wrong URL. */
+app.get('*', function (req, res) {
+  res.redirect('/api/v1/home');
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });

@@ -14,8 +14,7 @@ const router = (app) => {
 
   apiRoutes.use((req, res, next) => {
     if (!req.route) {
-      const error = createError(404, 'No route matched');
-      return next(error);
+      res.redirect('/api/v1/home');
     }
 
     return next();

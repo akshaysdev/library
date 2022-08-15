@@ -68,11 +68,7 @@ module.exports = class AuthorService {
       ).map((author) => author.email);
 
       const newAuthors = authors.filter((author) => !existingAuthors.includes(author.email));
-      const updateAuthors = authors.filter(
-        (author) =>
-          existingAuthors.includes(author.email) &&
-          (existingAuthors.includes(author.firstname) || existingAuthors.includes(author.lastname))
-      );
+      const updateAuthors = authors.filter((author) => existingAuthors.includes(author.email));
 
       for (let author of newAuthors) {
         await this.validateAuthor(author);
@@ -86,17 +82,12 @@ module.exports = class AuthorService {
         await this.authorRepository.bulkUpdateAuthors(updateAuthors);
       }
 
-      if (!newAuthors.length && !updateAuthors.length) {
-        return { status: 'warn', text: 'One or Many Author already exists!' };
-      }
-
       return { status: 'success', text: 'Authors uploaded successfully!' };
     } catch (error) {
       error.meta = { ...error.meta, 'AuthorService.saveAuthorsFromFile': { file } };
       throw error;
     }
   }
-
 
   /**
    * It fetches all authors from the database, creates a CSV header row, creates a CSV data row for
@@ -115,7 +106,7 @@ module.exports = class AuthorService {
         const row = [author.email, author.firstname, author.lastname];
         csvData.push(row);
       }
-      csvData = csvData.map((row) => row.join(';'));      
+      csvData = csvData.map((row) => row.join(';'));
       csvData = csvData.join('\n');
 
       return csvData;

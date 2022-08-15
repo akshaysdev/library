@@ -59,7 +59,7 @@ module.exports = class AuthorRepository {
   async fetchAllAuthors() {
     try {
       const authors = await this.repository.find({}).select('-_id -__v');
-      
+
       return authors;
     } catch (error) {
       throw error;

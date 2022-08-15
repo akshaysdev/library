@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const mongooseOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  dbName: process.env.MONGODB_NAME,
 };
 
 mongoose.Promise = global.Promise;

@@ -32,7 +32,11 @@
          document.body.removeChild(link);
       })(<%- JSON.stringify(message[0].download) %>);
     </script>
-    <% } %> 
+    <%- include("./script.ejs") %>
+    <% } else { %> 
+      <%- include("./script.ejs") %> 
+      <% } %> 
+      
     <%- include("../components/footer.ejs") %>
   </body>
 </html>
