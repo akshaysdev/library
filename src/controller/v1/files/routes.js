@@ -3,7 +3,7 @@ const express = require('express');
 const fileRouter = express.Router();
 const file = require('./file');
 
-const { container } = require('../../../externalService/dependencyInjection');
+const { container } = require('../../../utils/dependencyInjection');
 const uploadImage = container.resolve('uploadImage');
 
 // Upload forms
